@@ -12,6 +12,7 @@ import z from "zod";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Form, FormField } from "@/components/ui/form";
+import { onInvoke } from '../actions'
 // import { useCreateProject } from "@/modules/projects/hooks/project"; 
 
 const formSchema = z.object({
@@ -97,8 +98,24 @@ const ProjectForm = () => {
     }
   }
 
+  const onInvokeAi = async () => {
+    try {
+      const res = await onInvoke()
+      console.log(res);
+      toast.success("Done")
+    } catch (error) {
+      console.error(error);
+
+    }
+  }
+
   return (
     <div className='space-y-8'>
+
+      <Button onClick={onInvokeAi}>
+        Invoke
+      </Button>
+
       {/* template grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
         {
@@ -145,9 +162,9 @@ const ProjectForm = () => {
           )}
         >
           <FormField
-          control={form.control}
-          name = "content"
-          render={({field})=>(
+            control={form.control}
+            name="content"
+            render={({ field }) => (
               <TextAreaAutosize
                 {...field}
                 // disabled={isPending}
@@ -167,7 +184,7 @@ const ProjectForm = () => {
                   }
                 }}
               />
-          )}
+            )}
           />
           <div className="flex gap-x-2 items-end justify-between pt-2">
             <div className="text-[10px] text-muted-foreground font-mono">
@@ -177,9 +194,9 @@ const ProjectForm = () => {
               &nbsp; to submit
             </div>
             <Button className={cn("size-8 rounded-full")}
-            type="submit"
+              type="submit"
             >
-              <ArrowUpIcon className='size-4'/>
+              <ArrowUpIcon className='size-4' />
             </Button>
           </div>
 
